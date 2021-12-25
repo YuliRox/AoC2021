@@ -14,21 +14,60 @@ namespace src
             {
                 Console.WriteLine("-->{0}", inputSet.Name);
 
-                var forwardSum = inputSet.Content
-                    .Where(x => x.Direction == Direction.FORWARD)
-                    .Sum(x => x.Amount);
 
-                var depthSum = inputSet.Content
-                    .Where(x => x.Direction == Direction.UP || x.Direction == Direction.DOWN)
-                    .Sum(x => x.Amount);
+                var position = Part1(inputSet);
+                Console.WriteLine("=== Part 1 ===");
+                Console.WriteLine($"The horizontal position is: {position.horizontal}");
+                Console.WriteLine($"The depth is: {position.vertical}");
+                Console.WriteLine($"Total distance: {position.horizontal * position.vertical}");
 
-                Console.WriteLine($"The horizontal position is: {forwardSum}");
-                Console.WriteLine($"The depth is: {depthSum}");
-                Console.WriteLine($"Total distance: {forwardSum * depthSum}");
+                position = Part2(inputSet);
+                Console.WriteLine("=== Part 2 ===");
+                Console.WriteLine($"The horizontal position is: {position.horizontal}");
+                Console.WriteLine($"The depth is: {position.vertical}");
+                Console.WriteLine($"Total distance: {position.horizontal * position.vertical}");
+
 
                 Console.WriteLine("<--{0}", inputSet.Name);
             }
 
+        }
+
+        private static (int horizontal, int vertical) Part1(PuzzleInput<DirectionPuzzle> input)
+        {
+            var forwardSum = input.Content
+                .Where(x => x.Direction == Direction.FORWARD)
+                .Sum(x => x.Amount);
+
+            var depthSum = input.Content
+                .Where(x => x.Direction == Direction.UP || x.Direction == Direction.DOWN)
+                .Sum(x => x.Amount);
+
+            return (forwardSum, depthSum);
+
+        }
+
+        private static (int horizontal, int vertical) Part2(PuzzleInput<DirectionPuzzle> input)
+        {
+            var aim = 0;
+            var depth = 0;
+            var horizontalPosition = 0;
+
+            foreach (var movement in input.Content)
+            {
+                switch (movement.Direction)
+                {
+                    case Direction.UP:
+                    case Direction.DOWN:
+                        aim += movement.Amount;
+                        break;
+                    case Direction.FORWARD:
+                        horizontalPosition += movement.Amount;
+                        depth += aim * movement.Amount;
+                        break;
+                }
+            }
+            return (horizontalPosition, depth);
         }
 
         private static DirectionPuzzle TransformInputLine(string line)
