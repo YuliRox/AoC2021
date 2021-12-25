@@ -27,7 +27,8 @@ namespace src
 
                 Console.WriteLine($"> Part-2 for {inputSet.Name}");
 
-                var value2 = Part2(inputSet);
+                var lifeSupportRating = Part2(inputSet);
+                Console.WriteLine("Life support rating: {0}", lifeSupportRating);
 
                 Console.WriteLine($"< Part-2 for {inputSet.Name}");
 
@@ -49,7 +50,7 @@ namespace src
 
             var rateConversion = Enumerable.Range(0, lineLength)
                       .Select(colIdx =>
-                            input.Content.Select(line => line[colIdx]).Sum() > rowCount/2 ? 1 : 0
+                            input.Content.Select(line => line[colIdx]).Sum() > rowCount / 2 ? 1 : 0
                       )
                       .ToArray();
 
@@ -60,9 +61,52 @@ namespace src
             return (gammaRate, epsilonRate);
         }
 
+        private static int BinaryToInteger(int[] binary)
+        {
+            if(binary == null)
+                return 0;
+
+            var binaryStr = string.Join(null, binary);
+            return Convert.ToInt32(binaryStr, 2);
+        }
+
         private static int Part2(PuzzleInput<int[]> input)
         {
-            return 0;
+            var oxRating = input.Content.ToArray();
+            var coRating = input.Content.ToArray();
+
+            var oxRatingRaw = CriteriaSieve(oxRating, (significance, totalAmount) => (significance >= totalAmount / 2.0));
+            var coRatingRaw = CriteriaSieve(coRating, (significance, totalAmount) => (significance < totalAmount / 2.0));
+
+            var oxRatingValue = BinaryToInteger(oxRatingRaw);
+            var coRatingValue = BinaryToInteger(coRatingRaw);
+
+            Console.WriteLine("Oxygen generator rating: {0}", oxRatingValue);
+            Console.WriteLine("Co2 scrubber rating: {0}", coRatingValue);
+
+            return oxRatingValue * coRatingValue;
+        }
+
+        private static int[] CriteriaSieve(int[][] input, Func<double, double, bool> useOnes)
+        {
+
+            var maximumColumnCount = input.FirstOrDefault()?.Length ?? 0;
+            for (int currentBitPosition = 0; currentBitPosition < maximumColumnCount; currentBitPosition++)
+            {
+                var significance = input.Select(row => row[currentBitPosition]).Sum();
+                var inputLength = input.Length;
+                var preference = useOnes(significance, inputLength);
+                input = input.Where(row =>
+                    preference ?
+                        row[currentBitPosition] == 1 :
+                        row[currentBitPosition] == 0
+                ).ToArray();
+
+                if(input.Length == 1) {
+                    return input.Single();
+                }
+            }
+            return default;
         }
     }
 }
