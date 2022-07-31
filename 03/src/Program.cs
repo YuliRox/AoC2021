@@ -46,7 +46,7 @@ namespace src
             var lineLength = input.Content.FirstOrDefault()?.Length ?? 0;
             if (lineLength == 0)
                 return (0, 0);
-            var rowCount = input.Content.Count;
+            var rowCount = input.Content.Length;
 
             var rateConversion = Enumerable.Range(0, lineLength)
                       .Select(colIdx =>
