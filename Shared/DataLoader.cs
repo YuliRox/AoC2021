@@ -29,17 +29,16 @@ namespace Shared
         }
     }
 
-    public readonly struct PuzzleInput<T>
+    public record class PuzzleInput<T>
     {
-        public readonly string Name { get; }
-        public List<T> Content { get; }
+        public string Name { get; init; }
+        public T[] Content { get; init; }
 
-        public PuzzleInput(string name, List<T> content)
+        public PuzzleInput(string name, IEnumerable<T> content)
         {
             Name = name;
-            Content = content;
+            Content = content.ToArray();
         }
 
     }
-
 }
