@@ -28,6 +28,7 @@ class Program
             Console.WriteLine($"> Part-2 for {inputSet.Name}");
 
             var value2 = Part2(inputSet);
+            Console.WriteLine($"Number of Dangerous Points: {value2}");
 
             Console.WriteLine($"< Part-2 for {inputSet.Name}");
         }
@@ -51,13 +52,22 @@ class Program
             solution.WriteLineToBoard(line);
         }
 
-        solution.RenderBoard();
         return solution.CountDangerousAreas();
 
     }
 
     private static int Part2(PuzzleInput<Line> input)
     {
-        return 0;
+        var maxX = input.Content.Max(line => Math.Max(line.Start.X, line.End.X));
+        var maxY = input.Content.Max(line => Math.Max(line.Start.Y, line.End.Y));
+
+        var solution = new SolutionBoard(maxX, maxY);
+        //skip 45° lines
+        foreach (var line in input.Content)
+        {
+            solution.WriteLineToBoard(line);
+        }
+
+        return solution.CountDangerousAreas();
     }
 }
