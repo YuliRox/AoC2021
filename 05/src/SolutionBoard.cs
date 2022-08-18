@@ -8,7 +8,7 @@ public class SolutionBoard
     public SolutionBoard(int maxX, int maxY)
     {
         Board = new int[maxX + 1][];
-        for (var index = 0; index < maxY + 1; index++)
+        for (var index = 0; index < maxX + 1; index++)
         {
             Board[index] = new int[maxY + 1];
         }
