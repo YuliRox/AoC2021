@@ -62,6 +62,11 @@ namespace SevenSegmentSearch
             return note;
         }
 
+        private static string SortSegments(string segment)
+        {
+            return new String(segment.OrderBy(x => x).ToArray());
+        }
+
         private static int? CountSegments(string segment)
         {
            switch (segment.Length)
@@ -84,6 +89,19 @@ namespace SevenSegmentSearch
         {
             public int? NumberValue { get; set; }
             public string ActiveSegments { get; init; }
+            
+        }
+
+        public record NumberMask
+        {
+            public char top { get; set; }
+            public char middle { get; set; }
+            public char bottom { get; set; }
+            public char leftTop { get; set; }
+            public char leftBottom { get; set; }
+            public char rightTop { get; set; }
+            public char rightBottom { get; set; }
+
         }
 
         public record NoteEntry
@@ -99,6 +117,10 @@ namespace SevenSegmentSearch
 
         private static int Part2(PuzzleInput<NoteEntry> input)
         {
+            var testinput = input.Content.First();
+            Console.WriteLine(String.Join(' ',testinput.UniqueSignalPatterns.Where(number => number.ActiveSegments.Length == 5).Select(ssn => ssn.ActiveSegments)));
+            Console.WriteLine(String.Join(' ',testinput.UniqueSignalPatterns.Where(number => number.ActiveSegments.Length == 6).Select(ssn => ssn.ActiveSegments)));
+
             return 0;
         }
     }
