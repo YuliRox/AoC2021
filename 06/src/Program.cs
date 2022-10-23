@@ -10,7 +10,7 @@ namespace src
         static void Main(string[] args)
         {
 
-            var inputData = DataLoader.LoadInputData(line => line.Split(',').Select(int.Parse).ToList());
+            var inputData = DataLoader.LoadSingleLineInputData(int.Parse, ",");
 
             foreach (var inputSet in inputData)
             {
@@ -36,9 +36,9 @@ namespace src
             }
         }
 
-        private static int Part1(PuzzleInput<List<int>> input)
+        private static int Part1(PuzzleInput<int> input)
         {
-            var fishSchool = input.Content.Single().ToList();
+            var fishSchool = input.Content.ToList();
             var days = 80;
 
             for (int i = 0; i < days; i++)
@@ -62,9 +62,9 @@ namespace src
             return fishSchool.Count;
         }
 
-        private static ulong Part2(PuzzleInput<List<int>> input)
+        private static ulong Part2(PuzzleInput<int> input)
         {
-            var fishSchool = input.Content.Single();
+            var fishSchool = input.Content.ToList();
             var fishQueue = new List<ulong>();
 
             for(var fishyNumber = 0; fishyNumber <= 8; fishyNumber++) {

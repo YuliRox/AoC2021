@@ -23,6 +23,23 @@ namespace Shared
                 .ToList();
         }
 
+        public static List<PuzzleInput<T>> LoadSingleLineInputData<T>(Func<string, T> contentModificationFunction, string splitChar)
+        {
+            return Directory.GetFiles(@"./input", "*.txt")
+                .Select(filePath => new FileInfo(filePath))
+                .Where(fileInfo => fileInfo.Name.Contains('_'))
+                .Select(fileInfo => new PuzzleInput<T>(
+                    Path.GetFileNameWithoutExtension(fileInfo.Name)
+                        .Split('_')
+                        .Last(),
+                    File.ReadAllLines(fileInfo.FullName)
+                        .Single()
+                        .Split(splitChar)
+                        .Select(contentModificationFunction)
+                        ))
+                .ToList();
+        }
+
         public static List<PuzzleInput<string>> LoadInputData()
         {
             return LoadInputData<string>(line => line);
