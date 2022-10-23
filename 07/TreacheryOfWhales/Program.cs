@@ -30,6 +30,7 @@ namespace TreacheryOfWhales
                 Console.WriteLine($"> Part-2 for {inputSet.Name}");
 
                 var value2 = Part2(inputSet);
+                Console.WriteLine("Min Fuel: {0}", value2);
 
                 Console.WriteLine($"< Part-2 for {inputSet.Name}");
             }
@@ -41,7 +42,7 @@ namespace TreacheryOfWhales
             var max = input.Content.Max();
             var min = input.Content.Min();
             var dists = new List<int>();
-            for (var i = 0; i < max; i++)
+            for (var i = min; i < max; i++)
             {
                 var dist = 0;
                 foreach (var crabSub in input.Content)
@@ -55,7 +56,27 @@ namespace TreacheryOfWhales
 
         private static int Part2(PuzzleInput<int> input)
         {
-            return 0;
+            var max = input.Content.Max();
+            var min = input.Content.Min();
+            var gausSum = new int[max+1];
+            var dists = new List<int>();
+
+            for (var i = 0; i <= max; i++)
+            {
+                gausSum[i] = ((i * i) + i) / 2;
+            }
+
+            for (var i = min; i < max; i++)
+            {
+                var distSum = 0;
+                foreach (var crabSub in input.Content)
+                {
+                    var dist = Math.Abs(i - crabSub);
+                    distSum += gausSum[dist];
+                }
+                dists.Add(distSum);
+            }
+            return dists.Min();
         }
     }
 }
