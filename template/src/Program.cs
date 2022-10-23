@@ -21,6 +21,7 @@ namespace src
                 Console.WriteLine($"> Part-1 for {inputSet.Name}");
 
                 var value = Part1(inputSet);
+                Console.WriteLine("Value: {0}", value);
 
                 Console.WriteLine($"< Part-1 for {inputSet.Name}");
 
@@ -28,6 +29,7 @@ namespace src
                 Console.WriteLine($"> Part-2 for {inputSet.Name}");
 
                 var value2 = Part2(inputSet);
+                Console.WriteLine("Value: {0}", value2);
 
                 Console.WriteLine($"< Part-2 for {inputSet.Name}");
             }
