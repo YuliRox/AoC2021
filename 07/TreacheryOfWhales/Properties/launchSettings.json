@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TreacheryOfWhales": {
+      "commandName": "Project",
+      "workingDirectory": "..\\"
+    }
+  }
+}

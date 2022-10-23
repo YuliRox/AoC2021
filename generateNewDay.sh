@@ -13,6 +13,8 @@ if [ -z $2 ]; then
 fi
 
 cp -r template $NEWDAY
+sed -i "s/src/$2/g" $NEWDAY/src/Properties/launchSettings.json
+sed -i "s/src/$2/g" $NEWDAY/src/Program.cs
 mv $NEWDAY/src $NEWDAY/$2
 mv $NEWDAY/$2/src.csproj $NEWDAY/$2/$2.csproj
 dotnet sln add $NEWDAY/$2/$2.csproj
