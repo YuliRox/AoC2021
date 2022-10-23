@@ -14,6 +14,10 @@ namespace src
 
             foreach (var inputSet in inputData)
             {
+                if (!inputSet.Content.Any())
+                {
+                    continue;
+                }
                 Console.WriteLine($"> Part-1 for {inputSet.Name}");
 
                 var value = Part1(inputSet);

@@ -33,8 +33,9 @@ namespace Shared
                         .Split('_')
                         .Last(),
                     File.ReadAllLines(fileInfo.FullName)
-                        .Single()
+                        .SingleOrDefault(String.Empty)
                         .Split(splitChar)
+                        .Where( elem => !String.IsNullOrEmpty(elem) )
                         .Select(contentModificationFunction)
                         ))
                 .ToList();
